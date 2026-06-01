@@ -3,8 +3,8 @@
 A clean, responsive Kanban Board application built from scratch using pure Python.This project utilizes a completely decoupled system architecture consisting of a FastAPI backend service communicating with an interactive Streamlit UI web app.
 
 ## 🔗 Live Deployment Connections
-* **Frontend Application Client:** [https://indpro-enauvdzvpm8xfqtzwjpazn.streamlit.app](https://indpro-enauvdzvpm8xfqtzwjpazn.streamlit.app) [cite: 343]
-* **Backend API Sandbox Docs:** [https://jiban-taskmanager-api.onrender.com/docs](https://jiban-taskmanager-api.onrender.com/docs) [cite: 343]
+* **Frontend Application Client:** [https://indpro-enauvdzvpm8xfqtzwjpazn.streamlit.app](https://indpro-enauvdzvpm8xfqtzwjpazn.streamlit.app)
+* **Backend API Sandbox Docs:** [https://jiban-taskmanager-api.onrender.com/docs](https://jiban-taskmanager-api.onrender.com/docs)
 
 ## 🏗️ Architectural Layout & System Decisions
 * **Backend Framework (FastAPI):** Selected to enforce automated data schema structures via Pydantic and provide immediate Swagger API testing interfaces (`/docs`).
