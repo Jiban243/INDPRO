@@ -1,9 +1,19 @@
 # frontend/app.py
 import streamlit as st
 import requests
+import os
 
-# Base URL pointing to our local FastAPI backend server
-API_URL = "http://127.0.0.1:8000"
+# --- 🌐 BACKEND LINK RESOLUTION ---
+# Prioritize Streamlit Cloud secrets, fall back to environment variables, then local dev
+if "BACKEND_URL" in st.secrets:
+    API_URL = st.secrets["BACKEND_URL"]
+elif "BACKEND_URL" in os.environ:
+    API_URL = os.environ["BACKEND_URL"]
+else:
+    API_URL = "http://127.0.0.1:8000"
+
+# Safeguard trailing slashes in URL formatting
+API_URL = API_URL.rstrip("/")
 
 st.set_page_config(page_title="Task Manager", layout="wide")
 
@@ -46,7 +56,7 @@ if st.session_state.view == "login":
                             error_msg = response.json().get("detail", "Authentication failed.")
                             st.error(f"Error: {error_msg}")
                     except requests.exceptions.ConnectionError:
-                        st.error("Cannot connect to backend server. Is it running?")
+                        st.error(f"Cannot connect to backend server at {API_URL}. Is it running?")
 
     st.write("New here?")
     if st.button("Create an account"):
@@ -78,7 +88,7 @@ elif st.session_state.view == "register":
                             error_msg = response.json().get("detail", "Registration failed.")
                             st.error(f"Error: {error_msg}")
                     except requests.exceptions.ConnectionError:
-                        st.error("Cannot connect to backend server.")
+                        st.error(f"Cannot connect to backend server at {API_URL}.")
 
     if st.button("Back to Login"):
         st.session_state.view = "login"
@@ -157,7 +167,6 @@ elif st.session_state.view == "dashboard":
                                 st.text(task["description"])
                             
                             # Interactive controls inside card structure
-                            # Contextual state changes
                             current_index = ["Todo", "In Progress", "Done"].index(stage_key)
                             
                             btn_col1, btn_col2, btn_col3 = st.columns([1, 1, 1])
@@ -186,4 +195,4 @@ elif st.session_state.view == "dashboard":
         else:
             st.error("Failed to sync structural columns with backend servers.")
     except requests.exceptions.ConnectionError:
-        st.error("Lost communication links with operational backends.")
+        st.error(f"Lost communication links with operational backend at {API_URL}.")
